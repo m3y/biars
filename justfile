@@ -29,13 +29,13 @@ watch +COMMAND='test':
 alias boot := boot-local-cluster
 # boot local cluster
 boot-local-cluster:
-	@if ! kind get clusters | grep cbias 2>&1 > /dev/null; then \
-		kind create cluster --name cbias --config misc/kluster.yaml; \
+	@if ! kind get clusters | grep biars 2>&1 > /dev/null; then \
+		kind create cluster --name biars --config misc/kluster.yaml; \
 	fi
 
 # shutdown local cluster
 shutdown-local-cluster:
-	kind delete cluster --name cbias
+	kind delete cluster --name biars
 
 alias setup := applying-sample-application
 # applying sample application
