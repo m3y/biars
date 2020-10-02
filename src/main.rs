@@ -21,6 +21,11 @@ async fn main() -> anyhow::Result<()> {
                 println!("{}", node_name);
             }
         }
+        if let Some(labels) = &p.metadata.labels {
+            if let Some(app) = labels.get("k8s-app") {
+                println!("k8s-app: {}", app);
+            }
+        }
     }
 
     Ok(())
