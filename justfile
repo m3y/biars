@@ -1,13 +1,24 @@
+# usage
+usage:
+	@just -l
+
+# prepare
+prepare:
+	@which sccache 2>&1 > /dev/null || cargo install sccache
+	@cargo watch --help > /dev/null 2>&1 || cargo install cargo-watch
+	@cargo audit --help > /dev/null 2>&1 || cargo install cargo-audit
+
 # run
-run:
+run: prepare
 	cargo run
 
+sccache_path := `which sccache`
 # build
-build:
-	cargo build
+build: prepare
+	RUSTC_WRAPPER={{sccache_path}} cargo build
 
 # format
-fmt:
+fmt: prepare
 	@cargo fmt
 
 # lint
@@ -19,11 +30,11 @@ audit: lint
 	@cargo audit
 
 # test
-test:
+test: prepare
 	cargo test
 
 # watch
-watch +COMMAND='test':
+watch +COMMAND='test': prepare
 	cargo watch --clear --exec "{{COMMAND}}"
 
 alias boot := boot-local-cluster
@@ -51,9 +62,5 @@ clean:
 
 # clean all
 clean-all: clean shutdown-local-cluster
-
-# usage
-usage:
-	@just -l
 
 # vim: set noexpandtab :
